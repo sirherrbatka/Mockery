@@ -31,8 +31,8 @@
              (when (and (not not-applicable)
                         #1=(times controller)
                         (plusp #1#))
-               (decf #1#))))
-      (setf *not-applicable* not-applicable))))
+               (decf #1#)))
+        (setf *not-applicable* not-applicable)))))
 
 (defmethod invoke* ((controller mocked-call) label arguments callback)
   (call-mock-function (callback controller) arguments))
