@@ -1,4 +1,4 @@
-#+title: Mockery, a CL mocking
+#+title: Mockery, a CL mocking library
 
 * What is Mockery?
 Mockery is a as-simple-as-it-gets mocking library built for Common Lisp.
