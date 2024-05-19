@@ -4,7 +4,8 @@
 (declaim (inline invoke))
 (defun invoke (label arguments callback)
   "Top level invoke function. Deals with special variables and forwards to invoke* implementation."
-  (let ((*full-label* label))
+  (let ((*full-label* label)
+        (*not-applicable* nil))
     (invoke* *controller*
              (if (listp label) label (list label))
              arguments

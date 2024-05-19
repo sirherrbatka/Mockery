@@ -18,19 +18,21 @@
 
 (defmethod invoke* :around ((controller fundamental-mocking-object) label arguments callback)
   (when (and (times controller) (not (plusp (times controller))))
+    (setf *not-applicable* t)
     (error 'no-applicable-mock))
   (unless (funcall (filter controller) label arguments)
+    (setf *not-applicable* t)
     (error 'no-applicable-mock))
-  (progn
-    (handler-case
-        (multiple-value-prog1 (call-next-method)
-          #2=(when (and #1=(times controller) (plusp #1#))
-               (decf #1#)) )
-      (no-applicable-mock (e)
-        (signal e))
-      (error (e)
-        #2#
-        (signal e)))))
+  (let ((not-applicable nil))
+    (let ((*not-applicable* nil))
+      (unwind-protect
+           (unwind-protect (call-next-method)
+             (setf not-applicable *not-applicable*)
+             (when (and (not not-applicable)
+                        #1=(times controller)
+                        (plusp #1#))
+               (decf #1#))))
+      (setf *not-applicable* not-applicable))))
 
 (defmethod invoke* ((controller mocked-call) label arguments callback)
   (call-mock-function (callback controller) arguments))
@@ -46,3 +48,5 @@
 
 (defmethod with-mocking-expansion ((symbol (eql :direct)) body)
   `(make-instance 'direct-call ,@body))
+
+(serapeum:with-thunk)

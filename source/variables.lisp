@@ -2,4 +2,5 @@
 
 
 (defvar *controller* :default)
-(defvar *full-label* nil)
+(defvar *full-label*)
+(defvar *not-applicable*)
