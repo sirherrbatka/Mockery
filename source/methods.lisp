@@ -48,5 +48,3 @@
 
 (defmethod with-mocking-expansion ((symbol (eql :direct)) body)
   `(make-instance 'direct-call ,@body))
-
-(serapeum:with-thunk)
