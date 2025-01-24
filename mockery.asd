@@ -12,5 +12,6 @@
                (:file "variables")
                (:file "types")
                (:file "macros")
+               (:file "utils")
                (:file "methods")
                (:file "functions")))
